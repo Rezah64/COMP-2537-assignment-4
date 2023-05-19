@@ -85,14 +85,14 @@ const createGameGrid = () => {
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       const card = $('<div>').addClass('card').css('width', cardWidth);
-      const frontFace = $('<img>').addClass('front_face');
+      const frontFace = $('<img>').addClass('front_face')
       const backFace = $('<img>').addClass('back_face').attr('src', 'back.webp');
 
       card.append(frontFace).append(backFace);
       gameGrid.append(card);
     }
   }
-
+  
   images = shuffleArray(images);
 
   const cards = gameGrid.find('.card');
@@ -104,27 +104,31 @@ const createGameGrid = () => {
   setup();
 };
 const setup = () => {
-  $(".card").on(("click"), function () {
+  $(".card").on("click", function () {
     $(this).toggleClass("flip");
 
     if (!firstCard) {
-      firstCard = $(this).find(".front_face")[0];
-    } else {
-      secondCard = $(this).find(".front_face")[0];
+      firstCard = this;
+    } else if (!secondCard) {
+      secondCard = this;
 
-      if (firstCard.dataset.pokemon === secondCard.dataset.pokemon) {
+      if ($(firstCard).find("img").attr("data-pokemon") === $(secondCard).find("img").attr("data-pokemon")) {
         console.log("match");
-        $(`#${firstCard.id}`).parent().off("click");
-        $(`#${secondCard.id}`).parent().off("click");
+        firstCard = undefined;
+        secondCard = undefined;
       } else {
         console.log("no match");
         setTimeout(() => {
-          $(`#${firstCard.id}`).parent().toggleClass("flip");
-          $(`#${secondCard.id}`).parent().toggleClass("flip");
+          $(firstCard).toggleClass("flip");
+          $(secondCard).toggleClass("flip");
+          firstCard = undefined;
+          secondCard = undefined;
         }, 1000);
       }
-
-      firstCard = undefined;
+    } else {
+      $(firstCard).toggleClass("flip");
+      $(secondCard).toggleClass("flip");
+      firstCard = this;
       secondCard = undefined;
     }
   });
@@ -157,6 +161,5 @@ const setup = () => {
     createGameGrid();
   });
 };
-$(document).ready(() => {
-  setup();
-});
+
+$(document).ready(setup)
