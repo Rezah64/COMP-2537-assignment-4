@@ -20,11 +20,7 @@ const startTimer = () => {
 const resetTimer = () => {
   clearInterval(gameTimer);
   seconds = 0;
-  $('#timer').text('Timer: 0 seconds');
-  matchedPairs = 0;
-  pairsLeft = totalPairs;
-  clicksCount = 0;
-  updateStats();
+  $('#timer').text('0');
 };
 
 const retrievePokemonImages = () => {
@@ -121,7 +117,6 @@ const updateStats = () => {
 };
 
 const setup = () => {
-  
   $(".card").on("click", function () {
     clicksCount++;
     updateStats();
@@ -139,7 +134,6 @@ const setup = () => {
 
         matchedPairs++;
         pairsLeft--;
-        // clicksCount++;
         updateStats();
 
         if (matchedPairs === totalPairs) {
@@ -158,7 +152,6 @@ const setup = () => {
           firstCard = undefined;
           secondCard = undefined;
         }, 1000);
-        // clicksCount++;
         updateStats();
       }
     } else {
@@ -166,25 +159,35 @@ const setup = () => {
       $(secondCard).toggleClass("flip");
       firstCard = this;
       secondCard = undefined;
-      // clicksCount++;
       updateStats();
     }
   });
 
   $('#start-btn').on('click', () => {
+    $('#game_stats').show();
+    $('#game_grid').show();
+    resetTimer();
     startTimer();
     retrievePokemonImages();
   });
 
   $('#reset-btn').on('click', () => {
     resetTimer();
-    createGameGrid();
+    matchedPairs = 0;
+    pairsLeft = totalPairs;
+    clicksCount = 0;
+    updateStats();
   });
 
   $('#easy-btn').on('click', () => {
     rows = 2;
     cols = 3;
     totalPairs = Math.ceil(rows * cols / 2);
+    $('#easy-btn').addClass('selected');
+    $('#medium-btn').removeClass('selected');
+    $('#hard-btn').removeClass('selected');
+    $('#game_stats').hide();
+    $('#game_grid').hide();
     resetTimer();
     createGameGrid();
   });
@@ -193,6 +196,11 @@ const setup = () => {
     rows = 3;
     cols = 4;
     totalPairs = Math.ceil(rows * cols / 2);
+    $('#medium-btn').addClass('selected');
+    $('#easy-btn').removeClass('selected');
+    $('#hard-btn').removeClass('selected');
+    $('#game_stats').hide();
+    $('#game_grid').hide();
     resetTimer();
     createGameGrid();
   });
@@ -201,12 +209,18 @@ const setup = () => {
     rows = 4;
     cols = 6;
     totalPairs = Math.ceil(rows * cols / 2);
+    $('#hard-btn').addClass('selected');
+    $('#easy-btn').removeClass('selected');
+    $('#medium-btn').removeClass('selected');
+    $('#game_stats').hide();
+    $('#game_grid').hide();
     resetTimer();
     createGameGrid();
   });
 };
 
 $(document).ready(() => {
-  updateStats();
+  $('#game_stats').hide();
+  $('#game_grid').hide();
   setup();
 });

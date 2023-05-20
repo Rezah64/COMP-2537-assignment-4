@@ -31,6 +31,7 @@ body {
 .card .front_face {
   transform: rotateY(180deg);
   z-index: 2;
+  
 }
 
 .card .back_face {
@@ -72,13 +73,14 @@ h1 {
 }
 
 .buttons {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .button-row {
   display: flex;
   justify-content: center;
   gap: 10px;
+  margin-top: 10px;
 }
 
 button {
@@ -94,4 +96,11 @@ button {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+}
+.selected {
+  background-color: rgb(47, 68, 231);
+}
+button:hover {
+  background-color: #007bffbb;
+  
 }
