@@ -179,6 +179,7 @@ const setup = () => {
     retrievePokemonImages();
     $("#dark-mode-btn").show();
     updateStats();
+    $("#power-up-btn").show();
   });
 
   $('#reset-btn').on('click', () => {
@@ -258,5 +259,6 @@ $(document).ready(() => {
   $('#game_grid').hide();
   $("#light-mode-btn").hide();
   $("#dark-mode-btn").hide();
+  $("#power-up-btn").hide();
   setup();
 });
